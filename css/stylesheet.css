@@ -8,11 +8,14 @@
   width: 600px;
 }
 
-.snake {
-  height: 20px;
+.food {
+  height: 60px;
   width: 20px;
-  background-color: #fff4f4;
+  background-color: black;
+  position: absolute;
 }
+
+
 
 #start {
   color: blue;
