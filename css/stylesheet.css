@@ -3,8 +3,7 @@ body {
 }
 
 #board {
-  /*background-color: #FEC9A5;*/
-  /*background: linear-gradient(to bottom, #FC746A, rgba(0,0,0,0));*/
+ /*linear-gradient(to bottom, #FC746A, rgba(0,0,0,0));*/
   background: linear-gradient(180deg,#fff4f4,#FC746A,orange,violet);
   height: 600px;
   margin: 0 auto;
@@ -20,8 +19,8 @@ body {
     height: 16px;
     background-color: red;
     transform: rotate(45deg);
-    content:''
 }
+
 .food:before,
 .food:after {
     position: absolute;
@@ -29,8 +28,8 @@ body {
     height: 16px;
     border-radius: 50%;
     background-color: red;
-
 }
+
 .food:before {
   left: -8px;
   bottom: 0;
@@ -42,9 +41,6 @@ body {
   top: -8px;
   content: ':)'
 }
-
-
-
 
 #start {
   color: #91A8D0;
