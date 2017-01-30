@@ -4,15 +4,90 @@ const BOARD_HEIGHT = 600
 const BOARD_WIDTH = 600
 const LEFT_ARROW = 37
 const RIGHT_ARROW = 39
+const UP_ARROW = 38
+const DOWN_ARROW = 40
 const START = document.getElementById('start')
-const SNAKE = document.getElementById('snake')
+// const SNAKE = $('#snake')
 const FOODS = []
 var points = 0
 
 var gameInterval = null
 
+// var food = $('.food')
+// var snake = $('#snake')
+
+
+function eatFood() {
+  var meal = $('.food').collision('#snake')
+  if (!!meal.length){
+
+    $('.food').remove()
+    points += 1
+    makeChubby()
+  }
+}
+
+
+
+function moveSnake(e) {
+
+  if (e.which === LEFT_ARROW) {
+    moveSnakeLeft()
+  } else if (e.which === RIGHT_ARROW) {
+    moveSnakeRight()
+  } else if (e.which === UP_ARROW) {
+    moveSnakeUp()
+  } else if (e.which === DOWN_ARROW) {
+    moveSnakeDown()
+  }
+}
+
+function moveSnakeLeft() {
+  window.requestAnimationFrame(function(){
+    var left = positionToInteger($('#snake').css("left"))
+
+    if (left > 0){
+      $('#snake').css('left', left - 20)
+    }
+  })
+}
+
+function moveSnakeRight() {
+  window.requestAnimationFrame(function(){
+    var left = positionToInteger($('#snake').css("left"))
+
+    if (left < 560){
+      $('#snake').css('left', left + 20)
+    }
+  })
+}
+
+function moveSnakeUp() {
+  window.requestAnimationFrame(function(){
+    var bottom = positionToInteger($('#snake').css('bottom'))
+
+    if (bottom < 600) {
+      $('#snake').css('bottom', bottom + 20)
+    }
+  })
+}
+
+function moveSnakeDown() {
+  window.requestAnimationFrame(function(){
+    var bottom = positionToInteger($('#snake').css('bottom'))
+
+    if (bottom > 0) {
+      $('#snake').css('bottom', bottom -   20)
+    }
+  })
+}
+
+function positionToInteger(spot) {
+  return parseInt(spot.split('px')[0]) || 0
+}
+
 function createFood(x){
-  const food = document.createElement('div')
+  var food = document.createElement('div')
   food.className = 'food'
   food.style.left = `${x}px`
   var top = food.style.top = 0
@@ -21,6 +96,7 @@ function createFood(x){
 
   function moveFood(){
     food.style.top = `${top += 5}px`
+
     if (top < BOARD_HEIGHT) {
       window.requestAnimationFrame(moveFood)
     } else {
@@ -36,14 +112,14 @@ function createFood(x){
 }
 
 
-function catchFood() {
-  $('.food').remove()
-  makeChubby()
-  points += 1
-  var displayPoints = document.getElementById("pointTally");
-  displayPoints.innerHTML = `Snake Snack Points: ${points}`;
-}
-
+// function catchFood() {
+//   $('.food').remove()
+//   makeChubby()
+//   points += 1
+//   var displayPoints = document.getElementById("pointTally");
+//   displayPoints.innerHTML = `Snake Snack Points: ${points}`;
+// }
+//
 function makeChubby() {
     var el = document.getElementById("snake");
     var width = el.offsetWidth;
@@ -55,18 +131,16 @@ function makeChubby() {
 }
 
 function start(){
-  document.addEventListener('click', createFood)
+  // document.addEventListener('click', createFood)
   $('#start').remove()
-
+  window.addEventListener('keydown', moveSnake)
 
   gameInterval = setInterval(function(){
     createFood(Math.floor(Math.random() * (BOARD_WIDTH - 20)))
   }, 2000)
 
-  // var foodItem = document.querySelectorAll('.food')
-  //
-  // for (var i = 0; i < foodItem.length; i++) {
-  //   foodItem[i].addEventListener('click', catchFood)
-  // }
-  document.addEventListener('click', catchFood)
+  setInterval(function(){
+    eatFood()
+  }, 100)
+  // document.addEventListener('click', catchFood)
 }
