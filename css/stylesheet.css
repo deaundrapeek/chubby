@@ -50,9 +50,23 @@ body {
 
 #snake {
     position: absolute;
-    width: 60px;
-    height: 15px;
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJUlEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggjABuEq4CqhR/wEbSQcEChQUOwAAAABJRU5ErkJggg==) repeat;
     background-color: green;
+}
+#snake:before {
+   content:"";
+   position: absolute;
+   right: 100%;
+   top: calc(50%);
+   width: 0;
+   height: 0;
+   border-top: 5px solid transparent;
+   border-right: 5px solid red;
+   border-bottom: 5px solid transparent;
 }
 
 #start {
