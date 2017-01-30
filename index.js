@@ -25,6 +25,10 @@ function eatFood() {
     points += 1
     makeChubby()
   }
+
+  if (positionToInteger($('#snake').css('height')) >= BOARD_HEIGHT) {
+    endGame()
+  }
 }
 
 
@@ -55,8 +59,7 @@ function moveSnakeLeft() {
 function moveSnakeRight() {
   window.requestAnimationFrame(function(){
     var left = positionToInteger($('#snake').css("left"))
-
-    if (left < 560){
+    if (left < (595 -(positionToInteger($('#snake').css('width'))))){
       $('#snake').css('left', left + 20)
     }
   })
@@ -123,16 +126,37 @@ function createFood(x){
 function makeChubby() {
     var el = document.getElementById("snake");
     var width = el.offsetWidth;
-    var newWidth= width + 30;
-    el.style.width = newWidth + 'px';
+
+    if ((positionToInteger($('#snake').css('width')) + 30) >= BOARD_WIDTH) {
+      var newWidth = BOARD_WIDTH
+      el.style.width = newWidth + 'px';
+    } else if ( positionToInteger($('#snake').css('width')) < BOARD_WIDTH ) {
+      var newWidth= width + 30;
+      el.style.width = newWidth + 'px';
+    }
+
     var height = el.offsetHeight;
-    var newHeight = height + 10;
-    el.style.height = newHeight + 'px'
+    if (positionToInteger($('#snake').css('width')) >= BOARD_WIDTH){
+      var newHeight = height + 50
+      el.style.height = newHeight + 'px'
+    } else {
+      var newHeight = height + 15;
+      el.style.height = newHeight + 'px'
+    }
+
+}
+
+function endGame() {
+  clearInterval(gameInterval)
+  $('#snake').css({width: 40, height: 40, left: 300})
+  $('#start').html("Time for another meal?")
+  $('#start').css('display', 'inline')
+
 }
 
 function start(){
   // document.addEventListener('click', createFood)
-  $('#start').remove()
+  $('#start').css('display', 'none')
   window.addEventListener('keydown', moveSnake)
 
   gameInterval = setInterval(function(){
